@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Details</h1>
+    <form id="orderForm">
+        <label for="orderId">Order ID:</label>
+        <input type="text" id="orderId" name="orderId" required>
+        <button type="submit">Get Order</button>
+    </form>
+    <div id="orderDetails"></div>
+
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const orderId = document.getElementById('orderId').value;
+            fetch(`/order?id=${orderId}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('orderDetails').innerHTML = data;
+                })
+                .catch(error => {
+                    document.getElementById('orderDetails').innerText = error.message;
+                });
+        });
+    </script>
+</body>
+</html>
